@@ -1,0 +1,69 @@
+<section class="page-shell">
+  <header class="page-head">
+    <div>
+      <p class="eyebrow">Booking history</p>
+      <h2>Review your reservation activity</h2>
+    </div>
+    <a routerLink="/book">Back to Reservations</a>
+  </header>
+
+  <p class="error" *ngIf="error()">{{ error() }}</p>
+
+  <section class="admin-card">
+    <h3>Fetch recent bookings</h3>
+    <button type="button" (click)="loadBookings()" [disabled]="loading()">
+      {{ loading() ? 'Loading...' : 'View My Bookings' }}
+    </button>
+  </section>
+
+  <section class="result-card" *ngIf="hasAnyBookings()">
+    <h3>Confirmed stays</h3>
+
+    <div class="booking-list" *ngIf="previewBookings().length">
+      <article class="booking-item" *ngFor="let booking of previewBookings()">
+        <div class="booking-head">
+          <div>
+            <p class="booking-label">Book My Stay Confirmation</p>
+            <h4>{{ booking.hotelName }}</h4>
+          </div>
+          <span class="booking-status">Confirmed</span>
+        </div>
+
+        <div class="booking-grid">
+          <p><strong>Room:</strong> {{ booking.roomType }}</p>
+          <p><strong>City:</strong> {{ booking.city }}</p>
+          <p><strong>Check-in:</strong> {{ booking.checkIn }}</p>
+          <p><strong>Check-out:</strong> {{ booking.checkOut }}</p>
+          <p><strong>Nights:</strong> {{ booking.nights }}</p>
+          <p><strong>Total paid:</strong> Rs. {{ booking.total | number:'1.0-0' }}</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="booking-list" *ngIf="backendBookings().length">
+      <article class="booking-item" *ngFor="let booking of backendBookings()">
+        <div class="booking-head">
+          <div>
+            <p class="booking-label">Backend Booking</p>
+            <h4>{{ booking.hotelName || 'Confirmed booking' }}</h4>
+          </div>
+          <span class="booking-status">{{ booking.status || 'Confirmed' }}</span>
+        </div>
+
+        <div class="booking-grid">
+          <p><strong>Room:</strong> {{ booking.roomType || 'Assigned room' }}</p>
+          <p><strong>City:</strong> {{ booking.city || 'Available on backend' }}</p>
+          <p><strong>Check-in:</strong> {{ booking.checkIn || '-' }}</p>
+          <p><strong>Check-out:</strong> {{ booking.checkOut || '-' }}</p>
+          <p><strong>Nights:</strong> {{ booking.nights || '-' }}</p>
+          <p><strong>Total paid:</strong> {{ booking.total ? ('Rs. ' + booking.total) : '-' }}</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="result-card" *ngIf="!hasAnyBookings() && !loading()">
+    <h3>No bookings yet</h3>
+    <p>Your confirmed stays will appear here after you complete a reservation.</p>
+  </section>
+</section>

@@ -1,0 +1,51 @@
+<section class="page-shell">
+  <header class="page-head">
+    <div>
+      <p class="eyebrow">Property management</p>
+      <h2>Create hotels and review paged listings</h2>
+    </div>
+    <a routerLink="/hotels">Back to Hotels</a>
+  </header>
+
+  <p class="error" *ngIf="error()">{{ error() }}</p>
+  <p class="success" *ngIf="successMessage()">{{ successMessage() }}</p>
+
+  <section class="panel-grid">
+    <form class="admin-card" [formGroup]="createForm" (ngSubmit)="createHotel()">
+      <h3>Add new hotel</h3>
+
+      <div class="row">
+        <label>Name</label>
+        <input type="text" formControlName="name" />
+      </div>
+
+      <div class="row">
+        <label>Location</label>
+        <input type="text" formControlName="location" />
+      </div>
+
+      <button type="submit" [disabled]="createForm.invalid || loading()">Save Hotel</button>
+    </form>
+
+    <form class="admin-card" [formGroup]="pagedForm" (ngSubmit)="loadPagedHotels()">
+      <h3>Browse paged results</h3>
+
+      <div class="row">
+        <label>Page</label>
+        <input type="number" formControlName="page" min="1" />
+      </div>
+
+      <div class="row">
+        <label>Page Size</label>
+        <input type="number" formControlName="pageSize" min="1" />
+      </div>
+
+      <button type="submit" [disabled]="pagedForm.invalid || loading()">Show Results</button>
+    </form>
+  </section>
+
+  <section class="result-card" *ngIf="pagedResult()">
+    <h3>Paged results</h3>
+    <pre>{{ pagedResult() | json }}</pre>
+  </section>
+</section>

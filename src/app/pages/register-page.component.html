@@ -1,0 +1,77 @@
+<section class="auth-shell">
+  <div class="auth-layout">
+    <section class="auth-hero">
+      <p class="eyebrow">{{ registerMode === 'admin' ? 'New admin registration' : 'New user registration' }}</p>
+      <h2>{{ registerMode === 'admin' ? 'Create an admin account to manage hotels, rooms, and inventory.' : 'Create your Book My Stay account and start booking hotels with confidence.' }}</h2>
+      <p class="auth-copy">
+        {{ registerMode === 'admin'
+          ? 'Register an admin profile to add properties, manage room inventory, and maintain hotel operations from one workspace.'
+          : 'Register once to search city stays, compare room prices, calculate your trip cost by number of nights, and complete bookings faster.' }}
+      </p>
+
+      <ul class="auth-points">
+        <li *ngIf="registerMode === 'user'">Browse hotels across major Tier 1 cities</li>
+        <li *ngIf="registerMode === 'user'">Review room rates and stay totals before payment</li>
+        <li *ngIf="registerMode === 'user'">Track your bookings after sign in</li>
+        <li *ngIf="registerMode === 'admin'">Create hotel listings for each city</li>
+        <li *ngIf="registerMode === 'admin'">Add and manage room inventory</li>
+        <li *ngIf="registerMode === 'admin'">Keep admin access separate from guest bookings</li>
+      </ul>
+    </section>
+
+    <section class="auth-card">
+      <p class="eyebrow">Create account</p>
+      <h2>{{ registerMode === 'admin' ? 'Register as an admin' : 'Register as a new user' }}</h2>
+
+      <div class="auth-nav">
+        <a [routerLink]="registerMode === 'admin' ? '/admin-login' : '/login'">
+          Already have an account? Login
+        </a>
+        <a [routerLink]="registerMode === 'admin' ? '/register' : '/admin-register'">
+          {{ registerMode === 'admin' ? 'User registration' : 'Admin registration' }}
+        </a>
+      </div>
+
+      <p class="error" *ngIf="error()">{{ error() }}</p>
+      <p class="success" *ngIf="successMessage()">{{ successMessage() }}</p>
+
+      <form class="form-stack" [formGroup]="form" (ngSubmit)="submit()">
+        <div class="row">
+          <label>Username</label>
+          <input type="text" formControlName="username" placeholder="Choose a username" />
+          <small class="field-error" *ngIf="form.controls.username.touched && form.controls.username.invalid">
+            Username is required.
+          </small>
+        </div>
+
+        <div class="row">
+          <label>Email</label>
+          <input type="email" formControlName="email" placeholder="Enter your email address" />
+          <small class="field-error" *ngIf="form.controls.email.touched && form.controls.email.invalid">
+            Enter a valid email address.
+          </small>
+        </div>
+
+        <div class="row">
+          <label>Password</label>
+          <input type="password" formControlName="password" placeholder="Create a password" />
+          <small class="hint">Use at least 6 characters.</small>
+        </div>
+
+        <div class="row">
+          <label>Confirm Password</label>
+          <input type="password" formControlName="confirmPassword" placeholder="Re-enter your password" />
+          <small class="field-error" *ngIf="form.controls.confirmPassword.touched && form.controls.confirmPassword.invalid">
+            Confirm password is required.
+          </small>
+        </div>
+
+        <div class="auth-actions">
+          <button type="submit" [disabled]="loading()">
+            {{ loading() ? 'Submitting...' : (registerMode === 'admin' ? 'Create Admin Account' : 'Create Account') }}
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+</section>

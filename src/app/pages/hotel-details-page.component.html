@@ -1,0 +1,42 @@
+<section class="page-shell">
+  <p class="status" *ngIf="loading()">Loading property details...</p>
+  <p class="error" *ngIf="error()">{{ error() }}</p>
+
+  <article class="details-card" *ngIf="!loading() && hotel() as selectedHotel">
+    <img *ngIf="selectedHotel.imageUrl" [src]="selectedHotel.imageUrl" [alt]="selectedHotel.name" class="hero-image" />
+
+    <div class="details-body">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">{{ selectedHotelCity() }}</p>
+          <h2>{{ selectedHotel.name }}</h2>
+        </div>
+        <strong>{{ selectedHotel.rating || 4.2 }}/5</strong>
+      </div>
+
+      <p class="location">{{ selectedHotel.location }}</p>
+      <p>{{ selectedHotel.description }}</p>
+
+      <div class="amenity-list" *ngIf="selectedHotel.amenities?.length">
+        <span *ngFor="let amenity of selectedHotel.amenities">{{ amenity }}</span>
+      </div>
+
+      <div class="detail-grid" *ngIf="rooms().length">
+        <article *ngFor="let room of rooms()">
+          <span>{{ room.roomType }}</span>
+          <strong>Rs. {{ room.price | number:'1.0-0' }}</strong>
+          <small>Up to {{ room.capacity || 2 }} guests</small>
+          <ul *ngIf="room.benefits?.length" class="benefits">
+            <li *ngFor="let benefit of room.benefits">{{ benefit }}</li>
+          </ul>
+          <a [routerLink]="['/book', selectedHotel.id]" [queryParams]="{ roomId: room.id }">Reserve this room</a>
+        </article>
+      </div>
+
+      <div class="actions">
+        <a routerLink="/hotels">Back to hotels</a>
+        <a [routerLink]="['/book', selectedHotel.id]">Book this hotel</a>
+      </div>
+    </div>
+  </article>
+</section>

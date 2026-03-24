@@ -1,0 +1,59 @@
+<section class="auth-shell">
+  <div class="auth-layout">
+    <section class="auth-hero">
+      <p class="eyebrow">{{ loginMode === 'admin' ? 'Admin portal' : 'Guest access' }}</p>
+      <h2>{{ loginMode === 'admin' ? 'Manage hotels, rooms, and operational tasks securely.' : 'Sign in to explore hotels, compare room prices, and confirm your stay.' }}</h2>
+      <p class="auth-copy">
+        {{ loginMode === 'admin'
+          ? 'Use your admin account to manage hotel listings, room inventory, and property operations inside Book My Stay.'
+          : 'Use your user account to browse locations, review stay pricing, and reserve rooms across top city destinations.' }}
+      </p>
+
+      <ul class="auth-points">
+        <li *ngIf="loginMode === 'user'">Search hotels by city and location</li>
+        <li *ngIf="loginMode === 'user'">Compare prices before you confirm</li>
+        <li *ngIf="loginMode === 'admin'">Add hotel and room inventory</li>
+        <li *ngIf="loginMode === 'admin'">Keep admin access separate from user bookings</li>
+      </ul>
+    </section>
+
+    <section class="auth-card">
+      <p class="eyebrow">{{ loginMode === 'admin' ? 'Admin sign in' : 'User sign in' }}</p>
+      <h2>{{ loginMode === 'admin' ? 'Login to admin account' : 'Login to your account' }}</h2>
+
+      <div class="auth-nav">
+        <a *ngIf="loginMode === 'user'" routerLink="/register">New user? Register</a>
+        <a *ngIf="loginMode === 'user'" routerLink="/admin-login">Admin login</a>
+        <a *ngIf="loginMode === 'admin'" routerLink="/login">User login</a>
+        <a *ngIf="loginMode === 'admin'" routerLink="/admin-register">Create admin account</a>
+      </div>
+
+      <p class="error" *ngIf="error()">{{ error() }}</p>
+      <p class="success" *ngIf="successMessage()">{{ successMessage() }}</p>
+
+      <form class="form-stack" [formGroup]="form" (ngSubmit)="submit()">
+        <div class="row">
+          <label>Username</label>
+          <input type="text" formControlName="username" placeholder="Enter your username" />
+          <small class="field-error" *ngIf="form.controls.username.touched && form.controls.username.invalid">
+            Username is required.
+          </small>
+        </div>
+
+        <div class="row">
+          <label>Password</label>
+          <input type="password" formControlName="password" placeholder="Enter your password" />
+          <small class="field-error" *ngIf="form.controls.password.touched && form.controls.password.invalid">
+            Password is required.
+          </small>
+        </div>
+
+        <div class="auth-actions">
+          <button type="submit" [disabled]="loading()">
+            {{ loading() ? 'Submitting...' : (loginMode === 'admin' ? 'Admin Login' : 'Login') }}
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+</section>

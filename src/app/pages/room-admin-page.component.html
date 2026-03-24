@@ -1,0 +1,44 @@
+<section class="page-shell">
+  <header class="page-head">
+    <div>
+      <p class="eyebrow">Room management</p>
+      <h2>Add rooms to a hotel</h2>
+    </div>
+    <a routerLink="/hotels">Back to Hotels</a>
+  </header>
+
+  <p class="status" *ngIf="loading()">Loading hotel options...</p>
+  <p class="error" *ngIf="error()">{{ error() }}</p>
+  <p class="success" *ngIf="successMessage()">{{ successMessage() }}</p>
+
+  <section class="admin-card">
+    <h3>Load available hotels</h3>
+    <button type="button" (click)="loadHotels()" [disabled]="loading()">Load Hotels</button>
+  </section>
+
+  <form class="admin-card" [formGroup]="form" (ngSubmit)="submit()">
+    <h3>Add new room</h3>
+
+    <div class="row">
+      <label>Room Type</label>
+      <input type="text" formControlName="roomType" />
+    </div>
+
+    <div class="row">
+      <label>Price</label>
+      <input type="number" formControlName="price" min="0" />
+    </div>
+
+    <div class="row">
+      <label>Hotel</label>
+      <select formControlName="hotelId">
+        <option [ngValue]="null">Select hotel</option>
+        <option *ngFor="let hotel of hotels()" [ngValue]="hotel.id">
+          {{ hotel.name }} - {{ hotel.location }}
+        </option>
+      </select>
+    </div>
+
+    <button type="submit" [disabled]="form.invalid || loading() || !hotels().length">Save Room</button>
+  </form>
+</section>

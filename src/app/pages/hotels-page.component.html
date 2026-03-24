@@ -1,0 +1,56 @@
+<section class="page-shell">
+  <header class="page-head">
+    <div>
+      <p class="eyebrow">Hotel directory</p>
+      <h2>Browse stays by city, budget, and travel style</h2>
+    </div>
+    <button type="button" (click)="loadHotels()">Refresh Inventory</button>
+  </header>
+
+  <section class="filter-bar">
+    <div class="field">
+      <label>Search</label>
+      <input [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" type="text" placeholder="Search by hotel or locality" />
+    </div>
+
+    <div class="field">
+      <label>City</label>
+      <select [ngModel]="selectedCity()" (ngModelChange)="selectedCity.set($event)">
+        <option *ngFor="let city of cities()" [ngValue]="city">{{ city }}</option>
+      </select>
+    </div>
+  </section>
+
+  <p class="status" *ngIf="loading()">Refreshing hotels...</p>
+  <p class="error" *ngIf="error()">{{ error() }}</p>
+
+  <div class="hotel-grid">
+    <article class="hotel-card" *ngFor="let hotel of filteredHotels()">
+      <img *ngIf="hotel.imageUrl" [src]="hotel.imageUrl" [alt]="hotel.name" />
+      <div class="hotel-meta">
+        <div class="hotel-topline">
+          <div>
+            <h3>{{ hotel.name }}</h3>
+            <p>{{ hotel.location }}</p>
+          </div>
+          <strong>{{ hotel.rating || 4.2 }}/5</strong>
+        </div>
+
+        <p>{{ hotel.description || 'A comfortable city stay with modern conveniences and smooth access to nearby hotspots.' }}</p>
+
+        <div class="hotel-foot">
+          <span>From Rs. {{ (hotel.startingPrice || 5500) | number:'1.0-0' }} / night</span>
+          <div class="actions">
+            <a [routerLink]="['/hotels', hotel.id]">Details</a>
+            <a [routerLink]="['/book', hotel.id]">Book Now</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <section class="empty-state" *ngIf="!filteredHotels().length">
+    <h3>No hotels match your filters</h3>
+    <p>Try another city or clear the search to explore more stays.</p>
+  </section>
+</section>

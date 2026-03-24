@@ -1,0 +1,79 @@
+<section class="page-shell">
+  <header class="page-head">
+    <div>
+      <p class="eyebrow">Reservations</p>
+      <h2>Build your stay and review the final price before you confirm</h2>
+    </div>
+    <a routerLink="/hotels">Back to Hotels</a>
+  </header>
+
+  <p class="status" *ngIf="loading()">Loading booking data...</p>
+  <p class="error" *ngIf="error()">{{ error() }}</p>
+  <p class="success" *ngIf="successMessage()">{{ successMessage() }}</p>
+
+  <div class="booking-layout">
+    <form class="booking-card" [formGroup]="bookingForm" (ngSubmit)="submitBooking()">
+      <div class="row">
+        <label>Hotel</label>
+        <select formControlName="hotelId">
+          <option [ngValue]="null">Select a hotel</option>
+          <option *ngFor="let hotel of hotels()" [ngValue]="hotel.id">
+            {{ hotel.name }} - {{ hotel.city || hotel.location }}
+          </option>
+        </select>
+      </div>
+
+      <div class="row">
+        <label>Room</label>
+        <select formControlName="roomId">
+          <option [ngValue]="null">Select a room</option>
+          <option *ngFor="let room of rooms()" [ngValue]="room.id">
+            {{ room.roomType }} - Rs. {{ room.price | number:'1.0-0' }}
+          </option>
+        </select>
+      </div>
+
+      <div class="row grid-2">
+        <div>
+          <label>Check-in</label>
+          <input type="date" formControlName="checkIn" [min]="today" />
+        </div>
+        <div>
+          <label>Check-out</label>
+          <input type="date" formControlName="checkOut" [min]="bookingForm.controls.checkIn.value || today" />
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="bookingForm.invalid || submitting() || loading() || !rooms().length">
+        {{ submitting() ? 'Confirming...' : 'Confirm Booking' }}
+      </button>
+    </form>
+
+    <aside class="booking-card summary-card">
+      <h3>Stay summary</h3>
+      <p><strong>Hotel:</strong> {{ selectedHotel()?.name || 'Choose a hotel' }}</p>
+      <p><strong>Location:</strong> {{ selectedHotel()?.location || 'Not selected' }}</p>
+      <p><strong>Room:</strong> {{ selectedRoom()?.roomType || 'Choose a room' }}</p>
+      <p><strong>Price per night:</strong> Rs. {{ (selectedRoom()?.price || 0) | number:'1.0-0' }}</p>
+      <p><strong>Nights:</strong> {{ nights() }}</p>
+
+      <div class="price-breakup">
+        <div><span>Room total</span><strong>Rs. {{ subtotal() | number:'1.0-0' }}</strong></div>
+        <div><span>Taxes & fees</span><strong>Rs. {{ taxes() | number:'1.0-0' }}</strong></div>
+        <div class="grand-total"><span>Grand total</span><strong>Rs. {{ total() | number:'1.0-0' }}</strong></div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="booking-card confirmation-card" *ngIf="confirmation() as booking">
+    <p class="eyebrow">Booking confirmation</p>
+    <h3>Your stay at {{ booking.hotelName }} is confirmed</h3>
+    <p>{{ booking.roomType }} in {{ booking.city }} from {{ booking.checkIn }} to {{ booking.checkOut }}</p>
+    <div class="price-breakup">
+      <div><span>Nights</span><strong>{{ booking.nights }}</strong></div>
+      <div><span>Room total</span><strong>Rs. {{ booking.baseFare | number:'1.0-0' }}</strong></div>
+      <div><span>Taxes</span><strong>Rs. {{ booking.taxes | number:'1.0-0' }}</strong></div>
+      <div class="grand-total"><span>Paid</span><strong>Rs. {{ booking.total | number:'1.0-0' }}</strong></div>
+    </div>
+  </section>
+</section>

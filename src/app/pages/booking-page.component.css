@@ -1,0 +1,138 @@
+.page-shell {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+.page-head,
+.booking-card {
+  border: 1px solid rgba(125, 88, 46, 0.14);
+  background: rgba(255, 252, 247, 0.94);
+  box-shadow: 0 18px 40px rgba(80, 53, 27, 0.08);
+  border-radius: 1.2rem;
+}
+
+.page-head {
+  padding: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.page-head h2,
+.page-head p {
+  margin: 0;
+}
+
+.page-head a {
+  text-decoration: none;
+  color: #8f5522;
+  font-weight: 700;
+}
+
+.eyebrow {
+  margin-bottom: 0.45rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  color: #7d6046;
+}
+
+.booking-card {
+  margin-top: 1.25rem;
+  padding: 1.2rem;
+}
+
+.booking-layout {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 1rem;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.85rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+label {
+  font-size: 0.84rem;
+  color: #76593f;
+  margin-bottom: 0.24rem;
+}
+
+input,
+select,
+button {
+  border-radius: 0.75rem;
+  border: 1px solid #d7c4ae;
+  padding: 0.7rem 0.75rem;
+  font-size: 0.95rem;
+  background: #fffdfa;
+}
+
+button {
+  margin-top: 0.65rem;
+  background: linear-gradient(135deg, #7b4518, #bb7b33);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.summary-card h3,
+.confirmation-card h3 {
+  margin-top: 0;
+}
+
+.price-breakup {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.price-breakup div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.grand-total {
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(125, 88, 46, 0.14);
+}
+
+.status,
+.error,
+.success {
+  margin: 1rem 0 0;
+  font-weight: 600;
+}
+
+.error {
+  color: #b42318;
+}
+
+.success {
+  color: #166534;
+}
+
+@media (max-width: 720px) {
+  .page-head,
+  .grid-2,
+  .booking-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}

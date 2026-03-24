@@ -1,0 +1,122 @@
+<section class="page-shell">
+  <section class="hero-card">
+    <div>
+      <p class="eyebrow">Book My Stay</p>
+      <h2>Search city stays, compare room prices, and confirm your trip in minutes.</h2>
+      <p class="hero-copy">
+        Discover handpicked stays across India&apos;s leading business and travel destinations. Sign in as a guest
+        to book your trip or use the admin area to manage hotel inventory.
+      </p>
+    </div>
+
+    <div class="hero-actions">
+      <a *ngIf="!isLoggedIn()" routerLink="/login">User Login</a>
+      <a *ngIf="!isLoggedIn()" routerLink="/register">New User Register</a>
+      <a *ngIf="!isLoggedIn()" routerLink="/admin-login">Admin Login</a>
+      <a *ngIf="isLoggedIn() && isUser()" routerLink="/hotels">Browse Hotels</a>
+      <a *ngIf="isLoggedIn() && isUser()" routerLink="/book">Book A Stay</a>
+      <a *ngIf="isLoggedIn() && isAdmin()" routerLink="/hotel-admin">Add Hotels</a>
+      <a *ngIf="isLoggedIn() && isAdmin()" routerLink="/room-admin">Add Rooms</a>
+    </div>
+  </section>
+
+  <section class="featured-panel" *ngIf="!isLoggedIn()">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Top destinations</p>
+        <h3>Explore Tier 1 cities with active stays and room options</h3>
+      </div>
+    </div>
+
+    <div class="city-strip">
+      <span class="city-chip" *ngFor="let city of featuredCities()">{{ city }}</span>
+    </div>
+  </section>
+
+  <section class="featured-panel" *ngIf="!isLoggedIn()">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Featured hotels</p>
+        <h3>Popular picks for work trips, short stays, and weekend breaks</h3>
+      </div>
+      <a routerLink="/hotels">See all hotels</a>
+    </div>
+
+    <div class="hotel-grid">
+      <article class="hotel-card" *ngFor="let hotel of featuredHotels">
+        <img [src]="hotel.imageUrl" [alt]="hotel.name" />
+        <div class="hotel-meta">
+          <h4>{{ hotel.name }}</h4>
+          <p>{{ hotel.location }}</p>
+          <p>{{ hotel.description }}</p>
+          <div class="hotel-actions">
+            <span>From Rs. {{ hotel.startingPrice | number:'1.0-0' }} / night</span>
+            <a [routerLink]="['/hotels', hotel.id]">View stay</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="featured-panel" *ngIf="isLoggedIn() && isUser()">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Guest workspace</p>
+        <h3>Search by city, compare pricing, and confirm your booking</h3>
+      </div>
+    </div>
+
+    <div class="hotel-grid">
+      <article class="hotel-card">
+        <div class="hotel-meta">
+          <h4>Browse hotels</h4>
+          <p>Explore stays across major cities with room pricing and hotel details.</p>
+          <div class="hotel-actions">
+            <a routerLink="/hotels">Open Hotels</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="hotel-card">
+        <div class="hotel-meta">
+          <h4>My bookings</h4>
+          <p>Track reservation history and review your confirmed stays.</p>
+          <div class="hotel-actions">
+            <a routerLink="/booking-history">Open Bookings</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="featured-panel" *ngIf="isLoggedIn() && isAdmin()">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Admin workspace</p>
+        <h3>Manage hotels and room inventory from one place</h3>
+      </div>
+    </div>
+
+    <div class="hotel-grid">
+      <article class="hotel-card">
+        <div class="hotel-meta">
+          <h4>Add hotels</h4>
+          <p>Create hotel entries, expand city coverage, and review paged property results.</p>
+          <div class="hotel-actions">
+            <a routerLink="/hotel-admin">Add Hotel</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="hotel-card">
+        <div class="hotel-meta">
+          <h4>Add rooms</h4>
+          <p>Add room inventory and keep hotel availability updated.</p>
+          <div class="hotel-actions">
+            <a routerLink="/room-admin">Add Room</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+</section>

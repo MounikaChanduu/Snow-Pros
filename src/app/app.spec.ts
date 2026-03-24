@@ -18,6 +18,15 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, HotelBooking');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hotel Booking Frontend');
+  });
+
+  it('should render navigation links', async () => {
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('Hotels');
+    expect(compiled.textContent).toContain('Book');
+    expect(compiled.textContent).toContain('Login');
   });
 });
